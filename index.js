@@ -55,6 +55,28 @@ async function run() {
       res.send(result)
     })
     
+    // update a particular Assignment
+    app.put('/api/v1/allassignments/:id', async (req, res) => {
+      const id = req.params.id
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert: true}
+      const updatedAssignment = req.body
+
+      const assignment = {
+        $set: {
+          assignmentTitle : updatedAssignment.assignmentTitle,
+          marks : updatedAssignment.marks,
+          dueDate :updatedAssignment.dueDate,
+          difficultyLevel : updatedAssignment.difficultyLevel,
+          description :updatedAssignment.description,
+          photo :updatedAssignment.photo
+        }
+      }
+      
+      const result = await allAssignmentsCollection.updateOne(filter, assignment, options)
+      res.send(result)
+       
+    })
    
 
     await client.db("admin").command({ ping: 1 });
