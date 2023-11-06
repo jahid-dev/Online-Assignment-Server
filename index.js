@@ -2,6 +2,7 @@ const express = require("express");
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require("cors");
 require("dotenv").config();
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -10,6 +11,9 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Increase the payload size limit (e.g., 10MB)
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
 
@@ -27,7 +31,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-
+ 
     //db collection
     const allAssignmentsCollection = await client.db("online-assignment").collection("allAssignmentCollection");
     const submittedAssignmentsCollection = await client.db("online-assignment").collection("takeAssignment")
