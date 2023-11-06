@@ -30,6 +30,23 @@ async function run() {
 
     //db collection
     const allAssignmentsCollection = await client.db("online-assignment").collection("allAssignmentCollection");
+    const submittedAssignmentsCollection = await client.db("online-assignment").collection("takeAssignment")
+
+    //post submitted Assignment
+    app.post('/api/v1/takenewassignments', async (req, res) => {
+      const assignmentTake = req.body
+      console.log(assignmentTake);
+      const result = await submittedAssignmentsCollection.insertOne(assignmentTake)
+      res.send(result)
+    })
+
+
+    app.get('/api/v1/takenewassignments', async (req, res) => {
+      const cursor = submittedAssignmentsCollection.find()
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
 
     //add new assignments
     app.post('/api/v1/addnewassignments',  async (req, res) => {
