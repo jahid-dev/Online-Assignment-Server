@@ -112,7 +112,7 @@ async function run() {
           feedback: completedAssignment.feedback,
           status: completedAssignment.status
         }
-      }
+      } 
        
       console.log(completedAssignment);
       const result = await submittedAssignmentsCollection.updateOne(filter, assignment, options)
