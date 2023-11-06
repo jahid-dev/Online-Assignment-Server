@@ -98,6 +98,29 @@ async function run() {
       res.send(result)
        
     })
+
+     //patch when give mark an assignment
+    app.patch('/api/v1/takenewassignments/:id', async (req, res) => {
+      const id = req.params.id
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert: true}
+      const completedAssignment = req.body
+
+      const assignment = {
+        $set: {
+          givenMark: completedAssignment.givenMark,
+          feedback: completedAssignment.feedback,
+          status: completedAssignment.status
+        }
+      }
+       
+      console.log(completedAssignment);
+      const result = await submittedAssignmentsCollection.updateOne(filter, assignment, options)
+      res.send(result)
+       
+    })
+   
+ 
    
 
     await client.db("admin").command({ ping: 1 });
