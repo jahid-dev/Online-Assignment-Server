@@ -31,7 +31,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
- 
+  
     //db collection
     const allAssignmentsCollection = await client.db("online-assignment").collection("allAssignmentCollection");
     const submittedAssignmentsCollection = await client.db("online-assignment").collection("takeAssignment")
