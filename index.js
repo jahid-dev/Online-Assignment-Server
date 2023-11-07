@@ -99,6 +99,13 @@ async function run() {
        
     })
 
+    //delete assignment
+    app.delete('/api/v1/allassignments/:id', async (req, res) => {
+      const id = req.params.id
+      const query = {_id: new ObjectId(id)}
+      const result = await allAssignmentsCollection.deleteOne(query)
+      res.send(result)
+    })
      //patch when give mark an assignment
     app.patch('/api/v1/takenewassignments/:id', async (req, res) => {
       const id = req.params.id
