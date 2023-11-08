@@ -17,7 +17,10 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
 
-const uri = "mongodb+srv://zahid:WLJsDodUOgnwC3NR@cluster0.oykwxyb.mongodb.net/?retryWrites=true&w=majority";
+// const uri = `mongodb+srv://zahid:WLJsDodUOgnwC3NR@cluster0.oykwxyb.mongodb.net/?retryWrites=true&w=majority`;
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.oykwxyb.mongodb.net/?retryWrites=true&w=majority`;
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -30,7 +33,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
   
     //db collection
     const allAssignmentsCollection = await client.db("online-assignment").collection("allAssignmentCollection");
@@ -106,6 +109,7 @@ async function run() {
       const result = await allAssignmentsCollection.deleteOne(query)
       res.send(result)
     })
+    
      //patch when give mark an assignment
     app.patch('/api/v1/takenewassignments/:id', async (req, res) => {
       const id = req.params.id
